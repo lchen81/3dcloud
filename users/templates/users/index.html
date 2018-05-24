@@ -1,0 +1,23 @@
+<h1>User List</h1>
+
+{% if error_message %}
+<p><strong>{{ error_message }}</strong></p>
+<br><br>
+{% endif %}
+
+<ul>
+{% for user in user_list %}
+    <li>{{ user.id }}&emsp;{{ user.name }} | {{ user.email }}</li>
+{% empty %}
+    <li>No users yet.</li>
+{% endfor %}
+</ul>
+<br>
+
+<form action="{% url 'users:add' %}" method="post">
+{% csrf_token %}
+Name:&emsp;&emsp;&emsp;<input type="text" name="name"><br>
+Email:&emsp;&emsp;&emsp;<input type="text" name="email"><br>
+Password:&emsp;<input type="text" name="password"><br>
+<input type="submit" value="Add">
+</form>
