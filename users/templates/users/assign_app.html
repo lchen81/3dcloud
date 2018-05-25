@@ -1,0 +1,16 @@
+<h1>Assign application for User: {{ user.name }}</h1>
+
+<form action="{% url 'users:users_put_assign_app' user.id %}" method="post">
+{% csrf_token %}
+{% for app in app_list %}
+    {% if app.id in user_app_list %}
+        <input type="checkbox" value="{{ app.id }}" name="app_list" checked="checked"/>{{ app.name }}<br>
+    {% else %}
+        <input type="checkbox" value="{{ app.id }}" name="app_list"/>{{ app.name }}<br>
+    {% endif %}
+{% empty %}
+    <p>No application available!</p>
+{% endfor %}
+<br>
+<input type="submit" value="Assign">
+</form>

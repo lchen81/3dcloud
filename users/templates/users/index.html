@@ -1,23 +1,36 @@
 <h1>User List</h1>
 
+<div>
 {% if error_message %}
 <p><strong>{{ error_message }}</strong></p>
 <br><br>
 {% endif %}
+</div>
 
+<div>
 <ul>
 {% for user in user_list %}
-    <li>{{ user.id }}&emsp;{{ user.name }} | {{ user.email }}</li>
+    <li>{{ user.id }}&emsp;{{ user.name }} | {{ user.email }} | &emsp;&emsp;<a href="{% url 'users:users_delete' user.id %}">Delete</a></li>
+    {% for app in user.applications.all %}
+        {{ app.name }}<br>
+    {% empty %}
+        No application for this user.<br>
+    {% endfor %}
+    <a href="{% url 'users:users_get_assign_app' user.id %}">分配应用</a>
 {% empty %}
     <li>No users yet.</li>
 {% endfor %}
 </ul>
 <br>
+</div>
 
-<form action="{% url 'users:add' %}" method="post">
+<div>
+<h2>Add User</h2>
+<form action="{% url 'users:users_add' %}" method="post">
 {% csrf_token %}
 Name:&emsp;&emsp;&emsp;<input type="text" name="name"><br>
 Email:&emsp;&emsp;&emsp;<input type="text" name="email"><br>
 Password:&emsp;<input type="text" name="password"><br>
 <input type="submit" value="Add">
 </form>
+</div>

@@ -1,0 +1,22 @@
+<h1>Application List</h1>
+
+{% if error_message %}
+<p><strong>{{ error_message }}</strong></p>
+<br><br>
+{% endif %}
+
+<ul>
+{% for app in application_list %}
+    <li>{{ app.id }}&emsp;{{ app.name }} | {{ app.path }} | &emsp;&emsp;<a href="{% url 'applications:applications_delete' app.id %}">Delete</a></li>
+{% empty %}
+    <li>No applications yet.</li>
+{% endfor %}
+</ul>
+<br>
+
+<form action="{% url 'applications:applications_add' %}" method="post">
+{% csrf_token %}
+Name:&emsp;&emsp;&emsp;<input type="text" name="name"><br>
+Path:&emsp;&emsp;&emsp;<input type="text" name="path"><br>
+<input type="submit" value="Add">
+</form>
