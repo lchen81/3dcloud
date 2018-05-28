@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 
 from .models import User
 from applications.models import Application
+from hosts.models import Host
 
 
 class IndexView(generic.ListView):
@@ -51,3 +52,16 @@ def put_assign_app(request, user_id):
     user.save()
 
     return HttpResponseRedirect(reverse('users:users_index'))
+
+
+def start_app(request, user_id, app_id):
+    app = get_object_or_404(Application, pk = app_id)
+    
+    hosts = ''
+    for host in app.host_set.all():
+        hosts += host.name + ', '
+
+    if hosts == '':
+        return HttpResponse(app.name + ' has not been installed on any host')
+    else:
+        return HttpResponse(app.name + ' is installed on hosts: ' + hosts)

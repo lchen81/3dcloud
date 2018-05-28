@@ -1,0 +1,35 @@
+<h1>Host List</h1>
+
+<div>
+{% if error_message %}
+<p><strong>{{ error_message }}</strong></p>
+<br><br>
+{% endif %}
+</div>
+
+<div>
+<ul>
+{% for host in host_list %}
+    <li>{{ host.id }}&emsp;{{ host.name }} | {{ host.ip }} | &emsp;&emsp;<a href="{% url 'hosts:hosts_delete' host.id %}">Delete</a></li>
+    {% for app in host.applications.all %}
+        {{ app.name }}<br>
+    {% empty %}
+        No application on this host.<br>
+    {% endfor %}
+    <a href="{% url 'hosts:hosts_get_install_app' host.id %}">Install Application</a>
+{% empty %}
+    <li>No hosts yet.</li>
+{% endfor %}
+</ul>
+<br>
+</div>
+
+<div>
+<h2>Add Host</h2>
+<form action="{% url 'hosts:hosts_add' %}" method="post">
+{% csrf_token %}
+Name:&emsp;&emsp;<input type="text" name="name"><br>
+IP:&emsp;&emsp;&emsp;<input type="text" name="ip"><br>
+<input type="submit" value="Add">
+</form>
+</div>

@@ -1,0 +1,12 @@
+<h1>{{ application.name }} Information</h1>
+
+{% if error_message %}
+<p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+<h2>{{ application.name }} is installed on hosts:</h2>
+{% for host in application.host_set.all %}
+    {{ host.name }} -- {{ host.ip }}<br>
+{% empty %}
+    No applications yet.<br>
+{% endfor %}

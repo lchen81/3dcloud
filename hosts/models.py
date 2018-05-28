@@ -3,13 +3,12 @@ from django.db import models
 from applications.models import Application
 
 
-class User(models.Model):
+class Host(models.Model):
     name = models.CharField(max_length = 32, unique = True)
-    email = models.EmailField()
-    password = models.CharField(max_length = 16)
-    status = models.IntegerField(default = 0)
+    ip = models.GenericIPAddressField(protocol = 'IPv4')
+    mac = models.CharField(max_length=32)
 
     applications = models.ManyToManyField(Application)
 
     def __str__(self):
-        return self.name
+        return self.ip

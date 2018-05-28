@@ -12,7 +12,7 @@
 {% for user in user_list %}
     <li>{{ user.id }}&emsp;{{ user.name }} | {{ user.email }} | &emsp;&emsp;<a href="{% url 'users:users_delete' user.id %}">Delete</a></li>
     {% for app in user.applications.all %}
-        {{ app.name }}<br>
+        <a href="{% url 'applications:applications_detail' app.id %}">{{ app.name }}</a>&emsp;<a href="{% url 'users:users_start_app' user.id app.id %}">Start</a><br>
     {% empty %}
         No application for this user.<br>
     {% endfor %}

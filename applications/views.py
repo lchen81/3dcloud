@@ -11,6 +11,11 @@ class IndexView(generic.ListView):
     template_name = 'applications/index.html'
 
 
+class DetailView(generic.DetailView):
+    model = Application
+    template_name = 'applications/detail.html'
+
+
 def add(request):
     if not request.POST['name']:
         return render(request, 'applications/index.html', {
