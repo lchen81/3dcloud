@@ -5,6 +5,7 @@ from django.urls import reverse
 
 from .models import Host
 from applications.models import Application
+from . import tasks
 
 
 class IndexView(generic.ListView):
@@ -48,6 +49,8 @@ def put_install_app(request, host_id):
 
     host.applications.set(app_list)
     host.save()
+
+    tasks.add.delay(5, 4)
 
     return HttpResponseRedirect(reverse('hosts:hosts_index'))
 
